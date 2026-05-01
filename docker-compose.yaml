@@ -1,0 +1,23 @@
+services:
+  my-spring-boot-app:
+    container_name: my-spring-boot-app
+    build: .
+    volumes:
+      - uploaded-files:/uploaded
+
+    ports:
+      - "8080:8080"
+
+  nginx:
+    build:
+      context: ./nginx-config
+      dockerfile: .
+    ports:
+      - "80:80"
+    volumes:
+      - uploaded-files:/uploaded
+    depends_on:
+      - my-spring-boot-app
+
+volumes:
+  uploaded-files:
